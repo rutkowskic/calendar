@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calendar</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+    class Calendar {
+        constructor() {
+            this.now = new Date();
+            this.day = this.now.getDate();
+            this.month = this.now.getMonth();
+            this.year = this.now.getFullYear();
+        }
+
+        chunkArray(array, size) {
+            let result = []
+            for (let i = 0; i < array.length; i += size) {
+                let chunk = array.slice(i, i + size)
+                result.push(chunk)
+            }
+            return result
+        }
+
+        daysInMonth(){
+            return new Date(this.year, this.month + 1, 0).getDate();
+        }
+
+        firstDayInMonth(){
+            return new Date(this.year, this.month, 1).getDay();
+        }
+
+        daysInPrevMonth(){
+            return new Date(this.year, this.month, 0).getDate();
+        }
+
+        getFullCalendar(){
+            let daysInMonth = this.daysInMonth();
+            let firstDayInMonth =  this.firstDayInMonth();
+            let daysInPrevMonth = this.daysInPrevMonth();
+            let arr = [];
+            let chunks = [];
+            let n = 1;
+            if (firstDayInMonth === 0) {
+                firstDayInMonth = 7;
+            }
+            if(firstDayInMonth !== 1){
+                let a = daysInPrevMonth - (firstDayInMonth - 2);
+                for(let i=a; i<=daysInPrevMonth; i++){
+                    arr.push(i);
+                }
+            } 
+            for(let i=1; i<=daysInMonth; i++){
+                arr.push(i);
+            }
+            chunks = this.chunkArray(arr, 7);
+            while ( chunks[chunks.length - 1].length < 7) {
+                chunks[chunks.length - 1].push(n);
+                n++;
+            }
+            return chunks;
+        }
+    }
+
+    let calendar = new Calendar();
+
+</script>
+
+</html>
